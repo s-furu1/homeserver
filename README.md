@@ -32,12 +32,12 @@
 
 ## ディレクトリ構成
 
-
+```
 homeserver/
 └── docker/
     ├── portainer/
     └── uptime-kuma/
-
+```
 
 ## 関連記事
 
