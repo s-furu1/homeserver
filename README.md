@@ -29,6 +29,7 @@
 - **ネットワーク**: Tailscale（WireGuard）, UFW
 - **GPU**: NVIDIA Container Toolkit, CUDA 13.2
 - **監視**: Uptime Kuma
+- **DNS, 広告除去**: AdGuard Home
 
 ## ディレクトリ構成
 
@@ -36,7 +37,11 @@
 homeserver/
 └── docker/
     ├── portainer/
-    └── uptime-kuma/
+    │   └── compose.yaml
+    ├── uptime-kuma/
+    │   └── compose.yaml
+    └── adguard/
+        └── compose.yaml
 ```
 
 ## 関連記事
