@@ -1,2 +1,20 @@
 .env
 *.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# エディタ
+.vscode/
+*.swp
+
+# Docker
+**/data/
+**/logs/
+
+# 秘密情報
+*.key
+*.pem
+*.crt
+secrets/
