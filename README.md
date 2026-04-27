@@ -30,6 +30,7 @@
 - **GPU**: NVIDIA Container Toolkit, CUDA 13.2
 - **監視**: Uptime Kuma
 - **DNS, 広告除去**: AdGuard Home
+- **書類管理**: Paperless-ngx
 
 ## ディレクトリ構成
 
@@ -40,7 +41,9 @@ homeserver/
     │   └── compose.yaml
     ├── uptime-kuma/
     │   └── compose.yaml
-    └── adguard/
+    ├── adguard/
+    │   └── compose.yaml
+    └── paperless/
         └── compose.yaml
 ```
 
