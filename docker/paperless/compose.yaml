@@ -1,0 +1,49 @@
+# ~/homeserver/docker/paperless/compose.yaml
+services:
+  broker:
+    image: redis:7
+    container_name: paperless-redis
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: paperless-db
+    restart: unless-stopped
+    volumes:
+      - paperless_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless
+    restart: unless-stopped
+    depends_on:
+      - db
+      - broker
+    ports:
+      - "8000:8000"
+    volumes:
+      - paperless_data:/usr/src/paperless/data
+      - paperless_media:/usr/src/paperless/media
+      - paperless_export:/usr/src/paperless/export
+      - paperless_consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_DBUSER: paperless
+      PAPERLESS_DBPASS: paperless
+      PAPERLESS_DBNAME: paperless
+      PAPERLESS_OCR_LANGUAGE: jpn+eng
+      PAPERLESS_OCR_LANGUAGES: jpn
+      PAPERLESS_TIME_ZONE: Asia/Tokyo
+      PAPERLESS_SECRET_KEY: eeb7a846c8b88370485804aac12b84dc5309191fe9f800cbf5108d60a154697d
+
+volumes:
+  paperless_db:
+  paperless_data:
+  paperless_media:
+  paperless_export:
+  paperless_consume:
