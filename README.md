@@ -16,10 +16,8 @@
 |---|---|---|
 | Phase 0 | 基盤構築（Docker・Tailscale・GPU設定） | ✅ 完了 |
 | Phase 1 | 生活インフラ（AdGuard Home・Vaultwarden・Paperless-ngx） | ✅ 完了 |
-| Phase 2 | 生活自動化（Slack bot・家計・タスク・ランニング記録） | ⬜ 未着手 |
-| Phase 3 | データ集約（ストレージ増設・バックアップ強化） | ⬜ 未着手 |
-| Phase 4 | AI実験場（Ollama・ComfyUI・Whisper） | ⬜ 未着手 |
-| Phase 5 | 拡張・最適化 | ⬜ 未着手 |
+| Phase 2 | AI実験場（Ollama・ComfyUI・Whisper） | ⬜ 未着手 |
+| Phase 3 | 拡張・最適化 | ⬜ 未着手 |
 
 ## 技術スタック
 - **インフラ**: Docker, Docker Compose, Portainer
@@ -29,6 +27,11 @@
 - **DNS・広告除去**: AdGuard Home
 - **書類管理**: Paperless-ngx
 - **パスワード管理**: Vaultwarden
+
+## 自作アプリ
+このサーバー上で動作する自作アプリは独立リポジトリで管理しています。継続的改善を前提としたエンドレス運用。
+
+（ソースは公開予定）
 
 ## ディレクトリ構成
 ```
