@@ -1,0 +1,15 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    volumes:
+      - /mnt/backup/vaultwarden/data:/data
+      - ./sota-homeserver.tailf1905f.ts.net.crt:/ssl/cert.crt:ro
+      - ./sota-homeserver.tailf1905f.ts.net.key:/ssl/cert.key:ro
+    ports:
+      - "8888:80"
+    environment:
+      - SIGNUPS_ALLOWED=false
+      - DOMAIN=https://sota-homeserver.tailf1905f.ts.net:8888
+      - ROCKET_TLS={certs="/ssl/cert.crt",key="/ssl/cert.key"}
