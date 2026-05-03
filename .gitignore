@@ -18,3 +18,9 @@ Thumbs.db
 *.pem
 *.crt
 secrets/
+
+# fxbot runtime / secrets
+docker/fxbot/.env
+docker/fxbot/.env.*
+!docker/fxbot/.env.example
+docker/fxbot/data/
