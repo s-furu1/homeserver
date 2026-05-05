@@ -1,0 +1,23 @@
+services:
+  ai-feed-bot:
+    image: ghcr.io/sotadesuyo/ai-feed-bot:latest
+    container_name: ai-feed-bot
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
+      - ./backup:/backup
+    networks:
+      - homeserver
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+networks:
+  homeserver:
+    external: true

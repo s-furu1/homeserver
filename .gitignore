@@ -10,8 +10,12 @@ Thumbs.db
 *.swp
 
 # Docker
-**/data/
-**/logs/
+**/data/*
+!**/data/.gitkeep
+**/logs/*
+!**/logs/.gitkeep
+**/backup/*
+!**/backup/.gitkeep
 
 # 秘密情報
 *.key

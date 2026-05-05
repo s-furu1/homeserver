@@ -1,0 +1,22 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ./data:/root/.ollama
+    networks:
+      - homeserver
+    # TODO: Add NVIDIA/GPU settings here only after confirming host runtime policy.
+    # ai-feed-bot should use OLLAMA_BASE_URL=http://ollama:11434 on this network.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+networks:
+  homeserver:
+    external: true

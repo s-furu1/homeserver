@@ -1,0 +1,19 @@
+services:
+  life-bot:
+    image: ghcr.io/sotadesuyo/life-bot:latest
+    container_name: life-bot
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "127.0.0.1:18080:8000"
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
+      - ./backup:/backup
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"

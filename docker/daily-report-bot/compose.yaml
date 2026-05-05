@@ -1,0 +1,17 @@
+services:
+  daily-report-bot:
+    image: ghcr.io/sotadesuyo/daily-report-bot:latest
+    container_name: daily-report-bot
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
+      - ./backup:/backup
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
