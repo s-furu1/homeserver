@@ -6,12 +6,20 @@ services:
     env_file:
       - path: .env
         required: false
+    environment:
+      AI_FEED_ENABLE_SLACK: "false"
+      AI_FEED_ENABLE_WORKER: "true"
+      AI_FEED_ENABLE_WEB: "true"
+      AI_FEED_WEB_HOST: 0.0.0.0
+      AI_FEED_WEB_PORT: "8000"
+      OLLAMA_BASE_URL: http://ollama:11434
     volumes:
       - ./data:/data
       - ./logs:/logs
       - ./backup:/backup
     networks:
       - homeserver
+      - slack-apps
     logging:
       driver: json-file
       options:
@@ -20,4 +28,6 @@ services:
 
 networks:
   homeserver:
+    external: true
+  slack-apps:
     external: true

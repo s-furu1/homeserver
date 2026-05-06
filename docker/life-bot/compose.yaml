@@ -8,6 +8,9 @@ services:
         required: false
     ports:
       - "127.0.0.1:18080:8000"
+    environment:
+      AI_FEED_BASE_URL: http://ai-feed-bot:8000
+      DAILY_REPORT_BASE_URL: http://daily-report-bot:8000
     volumes:
       - ./data:/data
       - ./logs:/logs
@@ -18,3 +21,9 @@ services:
       options:
         max-size: "10m"
         max-file: "5"
+    networks:
+      - slack-apps
+
+networks:
+  slack-apps:
+    external: true

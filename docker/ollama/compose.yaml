@@ -9,6 +9,7 @@ services:
       - ./data:/root/.ollama
     networks:
       - homeserver
+      - slack-apps
     # TODO: Add NVIDIA/GPU settings here only after confirming host runtime policy.
     # ai-feed-bot should use OLLAMA_BASE_URL=http://ollama:11434 on this network.
     logging:
@@ -19,4 +20,6 @@ services:
 
 networks:
   homeserver:
+    external: true
+  slack-apps:
     external: true
