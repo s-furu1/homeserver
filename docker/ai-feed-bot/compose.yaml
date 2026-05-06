@@ -1,6 +1,6 @@
 services:
   ai-feed-bot:
-    image: ghcr.io/sotadesuyo/ai-feed-bot:latest
+    image: ${AI_FEED_BOT_IMAGE:-ghcr.io/replace-me/ai-feed-bot:latest}
     container_name: ai-feed-bot
     restart: unless-stopped
     env_file:

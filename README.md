@@ -60,7 +60,7 @@
 | **R1** | `~/homeserver/` はインフラ設定の単一モノレポとして維持する |
 | **R2** | 既製OSS（Portainer・AdGuard等）は `~/homeserver/docker/{name}/` に compose.yaml のみ配置する |
 | **R3** | 自作アプリは `~/projects/{app}/` に独立リポジトリを切る |
-| **R4** | 自作アプリのイメージはGHCR（`ghcr.io/sotadesuyo/{app}`）に公開し、homeserver側は `image:` 指定でpullする |
+| **R4** | 自作アプリのイメージはGHCR（`ghcr.io/<owner>/{app}`）に公開し、homeserver側は環境変数化した `image:` 指定でpullする |
 | **R5** | サーバー上に自作アプリのソースは置かない（compose.yamlと.envのみ） |
 | **R6** | 機密情報は `.env` に分離し、`.env.example` のみコミットする |
 
@@ -92,5 +92,5 @@ homeserver/
 ```
 
 ## 関連記事
-- note（ストーリー）: https://note.com/sotadesuyo/n/n4dae4ff4e6f6
+- note（ストーリー）: 公開URLを必要に応じて追記する
 - Zenn（技術詳細）: https://izanami.dev/post/2cd04951-1ddd-420a-b753-a81cec0e0e1b

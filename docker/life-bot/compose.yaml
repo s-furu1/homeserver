@@ -1,6 +1,6 @@
 services:
   life-bot:
-    image: ghcr.io/sotadesuyo/life-bot:latest
+    image: ${LIFE_BOT_IMAGE:-ghcr.io/replace-me/life-bot:latest}
     container_name: life-bot
     restart: unless-stopped
     env_file:
