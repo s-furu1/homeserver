@@ -1,6 +1,6 @@
 services:
   daily-report-bot:
-    image: ${DAILY_REPORT_BOT_IMAGE:-ghcr.io/replace-me/daily-report-bot:latest}
+    image: ${DAILY_REPORT_BOT_IMAGE:-ghcr.io/<owner>/daily-report-bot:latest}
     container_name: daily-report-bot
     restart: unless-stopped
     env_file:
