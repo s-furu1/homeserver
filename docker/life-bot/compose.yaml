@@ -11,6 +11,7 @@ services:
     environment:
       AI_FEED_BASE_URL: http://ai-feed-bot:8000
       DAILY_REPORT_BASE_URL: http://daily-report-bot:8000
+      TZ: Asia/Tokyo
     volumes:
       - ./data:/data
       - ./logs:/logs
