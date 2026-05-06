@@ -21,7 +21,8 @@ Thumbs.db
 *.key
 *.pem
 *.crt
-secrets/
+**/secrets/*
+!**/secrets/.gitignore
 
 # fxbot runtime / secrets
 docker/fxbot/.env

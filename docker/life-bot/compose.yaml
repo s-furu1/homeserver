@@ -12,6 +12,7 @@ services:
       - ./data:/data
       - ./logs:/logs
       - ./backup:/backup
+      - ./secrets:/secrets:ro
     logging:
       driver: json-file
       options:

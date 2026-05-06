@@ -113,10 +113,114 @@ daily-report-bot の `.env` に設定するもの:
 - Slack token
 - Slack channel ID
 - GitHub token
-- repository list
 - report schedule
 
 secret 実値は docs には書かない。
+
+## 6.5 外部credential / env inventory
+
+Phase 17 の実デプロイ前に、以下の外部 credential、ID、環境値、credential ファイル配置を確認する。secret 実値は `.env` または指定の secrets ディレクトリにだけ置き、docs、compose、git 管理対象ファイルには書かない。
+
+### GHCR
+
+- `GHCR owner`: 実運用の GitHub owner / org。docs には固定せず `<owner>` として扱う。
+- `GHCR_TOKEN`: GHCR login 用 token。packages の write/read 相当権限を持つものを shell 環境にだけ置く。
+- `LIFE_BOT_IMAGE`: `ghcr.io/<owner>/life-bot:latest`
+- `AI_FEED_BOT_IMAGE`: `ghcr.io/<owner>/ai-feed-bot:latest`
+- `DAILY_REPORT_BOT_IMAGE`: `ghcr.io/<owner>/daily-report-bot:latest`
+
+### Slack
+
+各 bot ごとに Slack App を作り、Socket Mode を有効化する。App-Level Token には `connections:write` を付け、Bot Token と Signing Secret を取得する。slash command は `life-bot` が `/life`、`ai-feed-bot` が `/feed`、`daily-report-bot` が `/report` を使う。Interactivity を有効化し、bot を対象チャンネルに invite してから channel ID を `.env` に設定する。
+
+life-bot:
+
+- `SLACK_BOT_TOKEN`
+- `SLACK_APP_TOKEN`
+- `SLACK_SIGNING_SECRET`
+- `SLACK_CHANNEL_LIFE_MONEY`
+- `SLACK_CHANNEL_LIFE_TASK`
+- `SLACK_CHANNEL_LIFE_RUNNING`
+- `SLACK_CHANNEL_LIFE_CALENDAR`
+- `SLACK_CHANNEL_LIFE_ALERT`
+
+ai-feed-bot:
+
+- `SLACK_BOT_TOKEN`
+- `SLACK_APP_TOKEN`
+- `SLACK_SIGNING_SECRET`
+- `SLACK_CHANNEL_AI_FEED`
+
+daily-report-bot:
+
+- `SLACK_BOT_TOKEN`
+- `SLACK_APP_TOKEN`
+- `SLACK_SIGNING_SECRET`
+- `SLACK_CHANNEL_SERVER_REPORT`
+- `SLACK_CHANNEL_SERVER_ALERT`
+
+### Google Calendar
+
+Google Calendar は専用共有カレンダーを正本にする。個人メインカレンダーを bot に直接触らせない。Service Account JSON は `~/homeserver/docker/life-bot/secrets/google-calendar-service-account.json` に置き、life-bot compose では `./secrets:/secrets:ro` として read-only mount する。`.env` の `GOOGLE_APPLICATION_CREDENTIALS` は `/secrets/google-calendar-service-account.json` にする。
+
+手順:
+
+1. Google Cloud Project を作る。
+2. Google Calendar API を有効化する。
+3. Service Account を作る。
+4. Service Account JSON を発行する。
+5. JSON を `~/homeserver/docker/life-bot/secrets/google-calendar-service-account.json` に置く。
+6. Google Calendar で専用共有カレンダーを作る。
+7. カレンダー設定から Calendar ID を取得する。
+8. Service Account のメールアドレスをそのカレンダーに共有する。
+9. 権限は予定を追加・変更できるものにする。
+10. life-bot `.env` に `GOOGLE_CALENDAR_ID` と `GOOGLE_APPLICATION_CREDENTIALS` を設定する。
+
+必要な値:
+
+- `GOOGLE_CALENDAR_ID`
+- `GOOGLE_APPLICATION_CREDENTIALS=/secrets/google-calendar-service-account.json`
+- Google Cloud Project
+- Google Calendar API enabled
+- Service Account
+- Service Account JSON
+
+### Health Auto Export
+
+- `HEALTH_WEBHOOK_TOKEN`: token は life-bot `.env` にだけ置く。
+- iOS 側 webhook URL は Tailscale 等の到達経路確定後に設定する。
+
+### Ollama
+
+Ollama は独立した compose service として起動し、外部公開しない。host 側確認用に `127.0.0.1:11434` だけ bind する。ai-feed-bot の `OLLAMA_BASE_URL` は compose 内接続の `http://ollama:11434` を使う。`OLLAMA_MODEL` は ai-feed-bot `.env` で指定し、model pull は別途手動確認する。
+
+必要な値:
+
+- `OLLAMA_BASE_URL=http://ollama:11434`
+- `OLLAMA_MODEL`
+
+確認:
+
+```bash
+cd ~/homeserver/docker/ollama
+docker compose up -d
+curl -s http://127.0.0.1:11434/api/tags | head
+```
+
+### daily-report-bot
+
+GitHub commit 集計には GitHub API を使う。daily-report-bot は `GITHUB_TOKEN` で authenticated user の repositories API から取得できる全リポジトリを対象にする。private repo、archived repo、fork repo も API で返るものは対象にする。token の権限が不足している場合は、取得できる範囲だけが集計対象になる。`GITHUB_TOKEN` が未設定、または repo 一覧取得に失敗した場合でもアプリ全体は落とさず、集計対象なしとして続行する。
+
+必要な値:
+
+- `GITHUB_TOKEN`
+- `SLACK_CHANNEL_SERVER_REPORT`
+- `SLACK_CHANNEL_SERVER_ALERT`
+- `DAILY_REPORT_DAILY_HOUR`
+- `DAILY_REPORT_DAILY_MINUTE`
+- `DAILY_REPORT_WEEKLY_DAY`
+- `DAILY_REPORT_WEEKLY_HOUR`
+- `DAILY_REPORT_WEEKLY_MINUTE`
 
 ## 7. Pull And Up
 
