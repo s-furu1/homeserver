@@ -1,6 +1,6 @@
 services:
   fxbot:
-    image: ghcr.io/s-furu1/fxbot:v0.1.0
+    image: ghcr.io/s-furu1/fxbot:v0.4.1
     container_name: fxbot
     restart: unless-stopped
     env_file:
